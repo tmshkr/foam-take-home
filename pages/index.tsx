@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { getImagesQuery } from "../src/lib/queries";
+import axios from "axios";
+
+import { getImagesQuery } from "src/lib/queries";
 import CategoryFilters from "src/components/CategoryFilters";
 import Pagination from "src/components/Pagination";
 
@@ -41,12 +43,22 @@ const Home: NextPage<Props> = ({ data, total }) => {
                   <button
                     type="button"
                     className="inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                    onClick={() => {
+                      axios
+                        .put("/api/updateItem", { key, is_foaming: true })
+                        .then((res) => console.log(res.data));
+                    }}
                   >
                     🍺&nbsp;&nbsp;Foaming
                   </button>
                   <button
                     type="button"
                     className="inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                    onClick={() => {
+                      axios
+                        .put("/api/updateItem", { key, is_foaming: false })
+                        .then((res) => console.log(res.data));
+                    }}
                   >
                     🧪&nbsp;&nbsp;Not Foaming
                   </button>
