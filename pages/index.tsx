@@ -45,7 +45,7 @@ const Home: NextPage<Props> = ({ data, total }) => {
               </div>
             ))}
           </div>
-          <Pagination />
+          <Pagination total={total} />
         </div>
       </main>
     </>
