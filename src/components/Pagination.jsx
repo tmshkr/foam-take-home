@@ -31,20 +31,16 @@ export default function Example({ total }) {
   };
 
   const pageLinks = [];
-  if (totalPages - page >= 3) {
-    if (page < 4) {
-      for (let i = 1; i <= 5; i++) {
-        pageLinks.push(<PageLink key={i} currentPage={page} pageNumber={i} />);
-      }
-    } else {
-      for (let i = page - 2; i < page + 3; i++) {
-        pageLinks.push(<PageLink key={i} currentPage={page} pageNumber={i} />);
-      }
-    }
-  } else {
-    for (let i = totalPages - 4; i <= totalPages; i++) {
-      pageLinks.push(<PageLink key={i} currentPage={page} pageNumber={i} />);
-    }
+  let start = Math.max(page - 2, 1);
+  let end = Math.min(page + 2, totalPages);
+
+  while (end - start < 4 && (start > 1 || end < totalPages)) {
+    start = Math.max(start - 1, 1);
+    end = Math.min(end + 1, totalPages);
+  }
+
+  for (let i = start; i <= end; i++) {
+    pageLinks.push(<PageLink key={i} currentPage={page} pageNumber={i} />);
   }
 
   return (
