@@ -5,6 +5,7 @@ import axios from "axios";
 import { getImagesQuery } from "src/lib/queries";
 import CategoryFilters from "src/components/CategoryFilters";
 import Pagination from "src/components/Pagination";
+import { Buttons } from "src/components/Buttons";
 
 const region = process.env.NEXT_PUBLIC_MY_AWS_REGION;
 const bucket = process.env.NEXT_PUBLIC_MY_AWS_BUCKET;
@@ -25,43 +26,22 @@ const Home: NextPage<Props> = ({ data, total }) => {
           <CategoryFilters />
 
           <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {data.map(({ key }) => (
-              <div key={key} className="group relative">
+            {data.map((item) => (
+              <div key={item.key} className="group relative">
                 <div className="w-full min-h-80 bg-gray-200 rounded-md overflow-hidden">
                   <a
-                    href={`https://${bucket}.s3.${region}.amazonaws.com/${key}`}
+                    href={`https://${bucket}.s3.${region}.amazonaws.com/${item.key}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <img
-                      src={`https://${bucket}.s3.${region}.amazonaws.com/${key}`}
+                      src={`https://${bucket}.s3.${region}.amazonaws.com/${item.key}`}
                       className="hover:opacity-75 w-full h-full object-center object-cover lg:w-full lg:h-full"
                     />
                   </a>
                 </div>
                 <div className="flex justify-center mt-3 shadow-sm rounded-md">
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                    onClick={() => {
-                      axios
-                        .put("/api/updateItem", { key, is_foaming: true })
-                        .then((res) => console.log(res.data));
-                    }}
-                  >
-                    🍺&nbsp;&nbsp;Foaming
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                    onClick={() => {
-                      axios
-                        .put("/api/updateItem", { key, is_foaming: false })
-                        .then((res) => console.log(res.data));
-                    }}
-                  >
-                    🧪&nbsp;&nbsp;Not Foaming
-                  </button>
+                  <Buttons key={item.key} item={item} />
                 </div>
               </div>
             ))}
