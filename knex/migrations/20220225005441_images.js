@@ -6,5 +6,5 @@ exports.up = async function (knex) {
 };
 
 exports.down = async function (knex) {
-  await knex.raw("DROP TABLE images CASCADE");
+  await knex.raw("DROP TABLE images");
 };

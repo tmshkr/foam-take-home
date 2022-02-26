@@ -1,3 +1,4 @@
 import knex from "knex";
 import config from "../knexfile.js";
-export default knex(config);
+const environment = process.env.NODE_ENV || "development";
+export default knex(config[environment]);
