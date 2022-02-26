@@ -1,9 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { getImagesQuery } from "../lib/queries";
 import CategoryFilters from "../components/CategoryFilters";
 import Pagination from "../components/Pagination";
-
-import knex from "../knex";
 
 const region = process.env.NEXT_PUBLIC_MY_AWS_REGION;
 const bucket = process.env.NEXT_PUBLIC_MY_AWS_BUCKET;
@@ -63,11 +62,4 @@ const Home: NextPage<Props> = ({ data }) => {
 };
 
 export default Home;
-
-export async function getServerSideProps() {
-  const data = await knex("images").select("*").limit(8);
-
-  return {
-    props: { data },
-  };
-}
+export const getServerSideProps = getImagesQuery;
