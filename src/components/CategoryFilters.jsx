@@ -4,6 +4,7 @@ https://tailwindui.com/components/ecommerce/components/category-filters#componen
 
 import { Fragment, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { Dialog, Popover, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
@@ -128,9 +129,13 @@ export default function Example() {
           </h2>
 
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
-              Is It Foaming?
-            </h2>
+            <Link href="/">
+              <a>
+                <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
+                  Is It Foaming?
+                </h2>
+              </a>
+            </Link>
             <button
               type="button"
               className="inline-block text-sm font-medium text-gray-700 hover:text-gray-900 sm:hidden"
