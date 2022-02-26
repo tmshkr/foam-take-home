@@ -22,6 +22,27 @@ export default function Example({ total }) {
   const notCurrentPageClasses =
     "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium";
 
+  const PageLink = ({ currentPage, pageNumber }) => {
+    const classes =
+      currentPage === pageNumber ? currentPageClasses : notCurrentPageClasses;
+    return (
+      <Link href={`/${pageNumber}?filter=${filter}`}>
+        <a className={classes} aria-current="page">
+          {pageNumber}
+        </a>
+      </Link>
+    );
+  };
+
+  const pageLinks = [];
+  for (
+    let i = Math.max(page - 4, 1);
+    i <= Math.min(page + 4, totalPages);
+    i++
+  ) {
+    pageLinks.push(<PageLink key={i} currentPage={page} pageNumber={i} />);
+  }
+
   return (
     <nav className="border-t border-gray-200 px-4 mt-8 flex items-center justify-between sm:px-0">
       <div className="-mt-px w-0 flex-1 flex">
@@ -37,29 +58,7 @@ export default function Example({ total }) {
           </Link>
         )}
       </div>
-      <div className="hidden md:-mt-px md:flex">
-        <a href="#" className={notCurrentPageClasses}>
-          1
-        </a>
-        <a href="#" className={currentPageClasses} aria-current="page">
-          2
-        </a>
-        <a href="#" className={notCurrentPageClasses}>
-          3
-        </a>
-        <span className="border-transparent text-gray-500 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium">
-          ...
-        </span>
-        <a href="#" className={notCurrentPageClasses}>
-          8
-        </a>
-        <a href="#" className={notCurrentPageClasses}>
-          9
-        </a>
-        <a href="#" className={notCurrentPageClasses}>
-          10
-        </a>
-      </div>
+      {pageLinks}
       <div className="-mt-px w-0 flex-1 flex justify-end">
         {page !== totalPages && (
           <Link href={`/${page + 1}?filter=${filter}`}>
