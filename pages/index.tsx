@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import axios from "axios";
 
 import { getImagesQuery } from "src/lib/queries";
 import CategoryFilters from "src/components/CategoryFilters";
