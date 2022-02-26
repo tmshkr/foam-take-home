@@ -3,24 +3,24 @@ module.exports = {
     client: "sqlite3",
     useNullAsDefault: true,
     connection: {
-      filename: "./knex/data/data.db3",
+      filename: "./src/knex/db.db3",
     },
     migrations: {
-      directory: "./knex/migrations",
+      directory: "./src/knex/migrations",
     },
     seeds: {
-      directory: "./knex/seeds",
+      directory: "./src/knex/seeds",
     },
   },
   production: {
     client: "pg",
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: "./knex/migrations",
+      directory: "./src/knex/migrations",
       tableName: "knex_migrations",
     },
     seeds: {
-      directory: "./knex/seeds",
+      directory: "./src/knex/seeds",
     },
   },
 };

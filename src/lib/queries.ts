@@ -1,4 +1,4 @@
-import knex from "../knex";
+import knex from "src/knex";
 
 export async function getImagesQuery(context) {
   const { filter, page = 1 } = context.query;

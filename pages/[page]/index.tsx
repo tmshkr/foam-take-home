@@ -1,4 +1,4 @@
-import { getImagesQuery } from "../../lib/queries";
-import QueryPage from "../index";
+import { getImagesQuery } from "src/lib/queries";
+import QueryPage from "pages/index";
 export default QueryPage;
 export const getServerSideProps = getImagesQuery;

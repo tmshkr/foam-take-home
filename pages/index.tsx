@@ -1,15 +1,15 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { getImagesQuery } from "../lib/queries";
-import CategoryFilters from "../components/CategoryFilters";
-import Pagination from "../components/Pagination";
+import { getImagesQuery } from "../src/lib/queries";
+import CategoryFilters from "src/components/CategoryFilters";
+import Pagination from "src/components/Pagination";
 
 const region = process.env.NEXT_PUBLIC_MY_AWS_REGION;
 const bucket = process.env.NEXT_PUBLIC_MY_AWS_BUCKET;
 
-type Props = { data: any };
+type Props = { data: any; total: number };
 
-const Home: NextPage<Props> = ({ data }) => {
+const Home: NextPage<Props> = ({ data, total }) => {
   return (
     <>
       <Head>
