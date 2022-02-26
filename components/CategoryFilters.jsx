@@ -12,7 +12,7 @@ export default function Example() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { query } = router;
-  const { filter, page } = query;
+  const { filter, page = 1 } = query;
   const allFilters = ["foaming", "not_foaming", "uncategorized"];
   let query_filters = filter ? filter.split(" ") : allFilters;
 
