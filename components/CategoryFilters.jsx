@@ -3,24 +3,58 @@ https://tailwindui.com/components/ecommerce/components/category-filters#componen
 */
 
 import { Fragment, useState } from "react";
+import { useRouter } from "next/router";
 import { Dialog, Popover, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
-const filters = [
-  {
-    id: "foaming_filters",
-    name: "Filters",
-    options: [
-      { value: "foaming", label: "Foaming" },
-      { value: "not_foaming", label: "Not Foaming" },
-      { value: "uncategorized", label: "Uncategorized" },
-    ],
-  },
-];
-
 export default function Example() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const { query } = router;
+  const { filter, page } = query;
+  const allFilters = ["foaming", "not_foaming", "uncategorized"];
+  let query_filters = filter ? filter.split(" ") : allFilters;
+
+  const filters = [
+    {
+      id: "foaming_filters",
+      name: "Filters",
+      options: [
+        {
+          value: "foaming",
+          label: "Foaming",
+          selected: query_filters.includes("foaming"),
+        },
+        {
+          value: "not_foaming",
+          label: "Not Foaming",
+          selected: query_filters.includes("not_foaming"),
+        },
+        {
+          value: "uncategorized",
+          label: "Uncategorized",
+          selected: query_filters.includes("uncategorized"),
+        },
+      ],
+    },
+  ];
+
+  const filtersSelected = filters[0].options.reduce((acc, curr) => {
+    return acc + curr.selected;
+  }, 0);
+
+  const handleCheckboxChange = (e) => {
+    if (e.target.checked) {
+      query_filters.push(e.target.value);
+    } else {
+      query_filters = query_filters.filter((el) => el !== e.target.value);
+      if (query_filters.length === 0) {
+        query_filters = allFilters;
+      }
+    }
+    router.push(`${page}?filter=${query_filters.join("+")}`);
+  };
 
   return (
     <div className="bg-gray-50">
@@ -62,8 +96,10 @@ export default function Example() {
                         <input
                           id={`filter-mobile-${section.id}-${optionIdx}`}
                           name={`${section.id}[]`}
-                          defaultValue={option.value}
+                          checked={option.selected}
                           type="checkbox"
+                          value={option.value}
+                          onChange={handleCheckboxChange}
                           className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
                         />
                         <label
@@ -116,7 +152,7 @@ export default function Example() {
                       <span>{section.name}</span>
                       {sectionIdx === 0 ? (
                         <span className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
-                          1
+                          {filtersSelected}
                         </span>
                       ) : null}
                       <ChevronDownIcon
@@ -142,7 +178,9 @@ export default function Example() {
                             <input
                               id={`filter-${section.id}-${optionIdx}`}
                               name={`${section.id}[]`}
-                              defaultValue={option.value}
+                              checked={option.selected}
+                              value={option.value}
+                              onChange={handleCheckboxChange}
                               type="checkbox"
                               className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
                             />
