@@ -40,9 +40,8 @@ const Home: NextPage<Props> = ({ data, total }) => {
                     />
                   </a>
                 </div>
-                <div className="flex justify-center mt-3 shadow-sm rounded-md">
-                  <Buttons key={item.key} item={item} />
-                </div>
+
+                <Buttons key={item.key} item={item} />
               </div>
             ))}
           </div>
