@@ -9,13 +9,9 @@ export default function Example({ total }) {
   const router = useRouter();
   const page = Number(router.query.page) || 1;
   const filter =
-    router.query.filter?.replace(" ", "+") ||
+    router.query.filter?.replace(/\s/g, "+") ||
     "foaming+not_foaming+uncategorized";
   const totalPages = Math.ceil(total / 8);
-
-  console.log({ page });
-  console.log({ total });
-  console.log({ totalPages });
 
   const currentPageClasses =
     "border-indigo-500 text-indigo-600 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium";
@@ -35,12 +31,20 @@ export default function Example({ total }) {
   };
 
   const pageLinks = [];
-  for (
-    let i = Math.max(page - 4, 1);
-    i <= Math.min(page + 4, totalPages);
-    i++
-  ) {
-    pageLinks.push(<PageLink key={i} currentPage={page} pageNumber={i} />);
+  if (totalPages - page >= 3) {
+    if (page < 4) {
+      for (let i = 1; i <= 5; i++) {
+        pageLinks.push(<PageLink key={i} currentPage={page} pageNumber={i} />);
+      }
+    } else {
+      for (let i = page - 2; i < page + 3; i++) {
+        pageLinks.push(<PageLink key={i} currentPage={page} pageNumber={i} />);
+      }
+    }
+  } else {
+    for (let i = totalPages - 4; i <= totalPages; i++) {
+      pageLinks.push(<PageLink key={i} currentPage={page} pageNumber={i} />);
+    }
   }
 
   return (
@@ -58,7 +62,7 @@ export default function Example({ total }) {
           </Link>
         )}
       </div>
-      {pageLinks}
+      <div className="hidden sm:block">{pageLinks}</div>
       <div className="-mt-px w-0 flex-1 flex justify-end">
         {page !== totalPages && (
           <Link href={`/${page + 1}?filter=${filter}`}>
