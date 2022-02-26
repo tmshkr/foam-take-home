@@ -26,26 +26,31 @@ const Home: NextPage<Props> = ({ data }) => {
             <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
               {data.map(({ key }) => (
                 <div key={key} className="group relative">
-                  <div className="w-full min-h-80 bg-gray-200 rounded-md overflow-hidden group-hover:opacity-75">
-                    <img
-                      src={`https://${bucket}.s3.${region}.amazonaws.com/${key}`}
-                      className="w-full h-full object-center object-cover lg:w-full lg:h-full"
-                    />
+                  <div className="w-full min-h-80 bg-gray-200 rounded-md overflow-hidden">
+                    <a
+                      href={`https://${bucket}.s3.${region}.amazonaws.com/${key}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={`https://${bucket}.s3.${region}.amazonaws.com/${key}`}
+                        className="hover:opacity-75 w-full h-full object-center object-cover lg:w-full lg:h-full"
+                      />
+                    </a>
                   </div>
-                  <div className="mt-4 flex justify-between">
-                    <div>
-                      <h3 className="text-sm text-gray-700">
-                        <a
-                          href={`https://${bucket}.s3.${region}.amazonaws.com/${key}`}
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="absolute inset-0"
-                          />
-                          click
-                        </a>
-                      </h3>
-                    </div>
+                  <div className="flex justify-center mt-3 shadow-sm rounded-md">
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                      🍺&nbsp;&nbsp;Foaming
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                      🧪&nbsp;&nbsp;Not Foaming
+                    </button>
                   </div>
                 </div>
               ))}
