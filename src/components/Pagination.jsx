@@ -19,11 +19,11 @@ export default function Example({ total }) {
     "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium";
 
   const PageLink = ({ currentPage, pageNumber }) => {
-    const classes =
-      currentPage === pageNumber ? currentPageClasses : notCurrentPageClasses;
+    const isCurrentPage = currentPage === pageNumber;
+    const classes = isCurrentPage ? currentPageClasses : notCurrentPageClasses;
     return (
       <Link href={`/${pageNumber}?filter=${filter}`}>
-        <a className={classes} aria-current="page">
+        <a className={classes} aria-current={isCurrentPage ? "page" : false}>
           {pageNumber}
         </a>
       </Link>
