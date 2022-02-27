@@ -16,6 +16,18 @@ export async function getImagesQuery(context) {
   if (process.env.NODE_ENV === "development") [{ "count(*)": count }] = count;
   else [{ count }] = count;
 
+  const totalPages = Math.ceil(count / 8);
+  if (page > totalPages) {
+    return {
+      redirect: {
+        destination: `/${totalPages}?filter=${
+          filter?.replace(/\s/g, "+") || "foaming+not_foaming+uncategorized"
+        }`,
+        permanent: false,
+      },
+    };
+  }
+
   const data = await knex("images")
     .select("*")
     .where(queryBuilder)
