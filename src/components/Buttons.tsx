@@ -33,9 +33,13 @@ export const Buttons = ({ item }) => {
           "hover:bg-cyan-300": isFoaming,
         })}
         onClick={() => {
+          setIsFoaming(true);
           axios
             .put("/api/updateItem", { key, is_foaming: true })
-            .then((res) => setIsFoaming(true));
+            .catch((err) => {
+              console.error(err);
+              setIsFoaming(isFoaming);
+            });
         }}
       >
         🍺&nbsp;&nbsp;Foaming
@@ -47,9 +51,13 @@ export const Buttons = ({ item }) => {
           "hover:bg-cyan-300": !isFoaming && isFoaming !== null,
         })}
         onClick={() => {
+          setIsFoaming(false);
           axios
             .put("/api/updateItem", { key, is_foaming: false })
-            .then((res) => setIsFoaming(false));
+            .catch((err) => {
+              console.error(err);
+              setIsFoaming(isFoaming);
+            });
         }}
       >
         🧪&nbsp;&nbsp;Not Foaming
