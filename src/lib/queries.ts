@@ -12,16 +12,15 @@ export async function getImagesQuery(context) {
     if (filters.includes("uncategorized")) builder.orWhereNull("is_foaming");
   };
 
-  const count = await knex("images")
-    .count()
-    .where(queryBuilder)
-    .then(([{ "count(*)": count }]) => Number(count));
+  let count: any = await knex("images").count().where(queryBuilder);
+  if (typeof count !== "number") [{ "count(*)": count }] = count;
 
   const data = await knex("images")
     .select("*")
     .where(queryBuilder)
     .limit(8)
-    .offset((page - 1) * 8);
+    .offset((page - 1) * 8)
+    .orderBy("key", "asc");
 
   return {
     props: { data, total: count },
