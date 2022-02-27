@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import {
@@ -43,11 +44,37 @@ export default function Example({ total }) {
     pageLinks.push(<PageLink key={i} currentPage={page} pageNumber={i} />);
   }
 
+  const prevPageURL = `/${page - 1}?filter=${filter}`;
+  const nextPageURL = `/${page + 1}?filter=${filter}`;
+
+  useEffect(() => {
+    const handleKeyUp = (e) => {
+      const keyCode = e.code;
+      switch (keyCode) {
+        case "ArrowLeft":
+          if (page > 1) router.push(prevPageURL);
+          break;
+        case "KeyA":
+          if (page > 1) router.push(prevPageURL);
+          break;
+        case "ArrowRight":
+          if (page < totalPages) router.push(nextPageURL);
+          break;
+        case "KeyD":
+          if (page < totalPages) router.push(nextPageURL);
+        default:
+          break;
+      }
+    };
+    document.addEventListener("keyup", handleKeyUp);
+    return () => document.removeEventListener("keyup", handleKeyUp);
+  }, [router.asPath]);
+
   return (
     <nav className="border-t border-gray-200 px-4 mt-8 flex items-center justify-between sm:px-0">
       <div className="-mt-px w-0 flex-1 flex">
-        {page !== 1 && (
-          <Link href={`/${page - 1}?filter=${filter}`}>
+        {page > 1 && (
+          <Link href={prevPageURL}>
             <a className="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
               <ArrowNarrowLeftIcon
                 className="mr-3 h-5 w-5 text-gray-400"
@@ -60,8 +87,8 @@ export default function Example({ total }) {
       </div>
       <div className="hidden sm:block">{pageLinks}</div>
       <div className="-mt-px w-0 flex-1 flex justify-end">
-        {page !== totalPages && (
-          <Link href={`/${page + 1}?filter=${filter}`}>
+        {page < totalPages && (
+          <Link href={nextPageURL}>
             <a className="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
               Next
               <ArrowNarrowRightIcon
