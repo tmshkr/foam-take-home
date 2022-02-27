@@ -13,7 +13,8 @@ export async function getImagesQuery(context) {
   };
 
   let count: any = await knex("images").count().where(queryBuilder);
-  if (typeof count !== "number") [{ "count(*)": count }] = count;
+  if (process.env.NODE_ENV === "development") [{ "count(*)": count }] = count;
+  else [{ count }] = count;
 
   const data = await knex("images")
     .select("*")
