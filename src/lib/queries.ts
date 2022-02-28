@@ -1,8 +1,18 @@
 import knex from "src/knex";
 
 export async function getImagesQuery(context) {
-  const { filter, page = 1 } = context.query;
+  const { filter } = context.query;
   const filters = filter ? filter.split(" ") : [];
+  const page = Number(context.query.page);
+
+  if (!page) {
+    return {
+      redirect: {
+        destination: `/1?filter=${filter?.replace(/\s/g, "+") || ""}`,
+        permanent: false,
+      },
+    };
+  }
 
   const queryBuilder = (builder) => {
     if (filters.includes("foaming")) builder.orWhere({ is_foaming: true });
