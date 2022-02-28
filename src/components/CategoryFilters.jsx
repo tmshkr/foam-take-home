@@ -14,8 +14,7 @@ export default function Example() {
   const router = useRouter();
   const { query } = router;
   const { filter, page = 1 } = query;
-  const allFilters = ["foaming", "not_foaming", "uncategorized"];
-  let query_filters = filter ? filter.split(" ") : allFilters;
+  let query_filters = filter ? filter.split(" ") : [];
 
   const filters = [
     {
@@ -50,9 +49,6 @@ export default function Example() {
       query_filters.push(e.target.value);
     } else {
       query_filters = query_filters.filter((el) => el !== e.target.value);
-      if (query_filters.length === 0) {
-        query_filters = allFilters;
-      }
     }
     router.push(`${page}?filter=${query_filters.join("+")}`);
   };
