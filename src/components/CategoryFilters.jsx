@@ -93,7 +93,7 @@ export default function Example() {
                         <input
                           id={`filter-mobile-${section.id}-${optionIdx}`}
                           name={`${section.id}[]`}
-                          checked={option.selected}
+                          defaultChecked={option.selected}
                           type="checkbox"
                           value={option.value}
                           onChange={handleCheckboxChange}
@@ -179,7 +179,7 @@ export default function Example() {
                             <input
                               id={`filter-${section.id}-${optionIdx}`}
                               name={`${section.id}[]`}
-                              checked={option.selected}
+                              defaultChecked={option.selected}
                               value={option.value}
                               onChange={handleCheckboxChange}
                               type="checkbox"
