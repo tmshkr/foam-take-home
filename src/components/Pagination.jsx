@@ -9,9 +9,7 @@ import {
 export default function Example({ total }) {
   const router = useRouter();
   const page = Number(router.query.page) || 1;
-  const filter =
-    router.query.filter?.replace(/\s/g, "+") ||
-    "foaming+not_foaming+uncategorized";
+  const filter = router.query.filter?.replace(/\s/g, "+") || "";
   const totalPages = Math.ceil(total / 8);
 
   const currentPageClasses =

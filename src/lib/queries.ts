@@ -2,9 +2,7 @@ import knex from "src/knex";
 
 export async function getImagesQuery(context) {
   const { filter, page = 1 } = context.query;
-  const filters = filter
-    ? filter.split(" ")
-    : ["foaming", "not_foaming", "uncategorized"];
+  const filters = filter ? filter.split(" ") : [];
 
   const queryBuilder = (builder) => {
     if (filters.includes("foaming")) builder.orWhere({ is_foaming: true });
@@ -16,15 +14,21 @@ export async function getImagesQuery(context) {
   if (process.env.NODE_ENV === "development") [{ "count(*)": count }] = count;
   else [{ count }] = count;
 
-  const totalPages = Math.ceil(count / 8);
+  const totalPages = Math.ceil(count / 8) || 1;
   if (page > totalPages) {
     return {
       redirect: {
         destination: `/${totalPages}?filter=${
-          filter?.replace(/\s/g, "+") || "foaming+not_foaming+uncategorized"
+          filter?.replace(/\s/g, "+") || ""
         }`,
         permanent: false,
       },
+    };
+  }
+
+  if (count < 1) {
+    return {
+      props: { data: [], count: 0 },
     };
   }
 
