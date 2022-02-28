@@ -2,7 +2,9 @@ import axios from "axios";
 import classNames from "classnames";
 import { useState } from "react";
 
-export const Buttons = ({ item }) => {
+import { ImageItem } from "pages/index";
+
+export const Buttons = ({ item }: { item: ImageItem }) => {
   const { key } = item;
   const [isFoaming, setIsFoaming] = useState(item.is_foaming);
 
